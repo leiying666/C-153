@@ -1,0 +1,62 @@
+#define _CRT_SECURE_NO_WARNINGS 1
+#include<string.h>
+#include<stdlib.h>
+#include<math.h>
+#include<stdio.h>
+#define MAX 110
+int m,n,a[MAX][MAX], book[MAX][MAX],c,min=999999,x,y,ex,ey;
+void dfs(int c,int x,int y)
+{
+	if (c >= min)
+	{
+		return;
+	}
+	if (x == ex && y == ey && c < min)
+	{
+		min = c;
+		return;
+	}
+	if (a[x][y + 1] == 0 && book[x][y + 1] != 1)
+	{
+		book[x][y + 1] = 1;
+		dfs(c + 1, x, y + 1);
+		book[x][y + 1] = 0;
+	}
+	if (a[x + 1][y] == 0 && book[x + 1][y] != 1)
+	{
+		book[x + 1][y] = 1;
+		dfs(c + 1, x + 1, y);
+		book[x + 1][y] = 0;
+	}
+	if (a[x][y - 1] == 0 && book[x][y - 1] != 1)
+	{
+		book[x][y - 1] = 1;
+		dfs(c + 1, x, y - 1);
+		book[x][y - 1] = 0;
+	}
+	if (a[x - 1][y] == 0 && book[x - 1][y] != 1)
+	{
+		book[x - 1][y] = 1;
+		dfs(c + 1, x - 1, y);
+		book[x - 1][y] = 0;
+	}
+}
+int main()
+{
+	scanf("%d%d", &n,&m);
+	for (int i = 0; i < MAX; i++)
+		for (int j = 0; j < MAX; j++)
+		{
+			a[i][j] = 2;
+		}
+	for (int i = 1; i <= n; i++)
+		for (int j = 1; j <= m; j++)
+			scanf("%d", &a[i][j]);
+	scanf("%d%d%d%d", &x, &y, &ex, &ey);
+	dfs(0,x,y);
+	if (min != 999999)
+		printf("%d", min);
+	else
+		printf("No Way!");
+	return 0;
+}
